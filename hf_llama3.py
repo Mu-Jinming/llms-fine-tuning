@@ -1,11 +1,13 @@
 import os
 os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
 
-import transformers
 import torch
+# Use a pipeline as a high-level helper
+from transformers import pipeline
 
-model_id = "meta-llama/Meta-Llama-3-8B"
-
-pipeline = transformers.pipeline("text-generation", model=model_id, model_kwargs={"torch_dtype": torch.bfloat16}, device_map="auto")
-out = pipeline("Hey how are you doing today?")
+messages = [
+    {"role": "user", "content": "Who are you?"},
+]
+pipe = pipeline("text-generation", model="meta-llama/Meta-Llama-3.1-8B-Instruct")
+out = pipe(messages)
 print(out)
